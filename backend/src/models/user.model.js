@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 
 const userSchema = new Schema(
@@ -30,5 +31,15 @@ const userSchema = new Schema(
   },
   { timestamps: true },
 );
+/* HOOKS */
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+
+  this.password = await bcrypt.hash(this.password, 12);
+});
+
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 export const User = model("User", userSchema);
