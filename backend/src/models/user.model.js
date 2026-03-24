@@ -13,7 +13,6 @@ const userSchema = new Schema(
     age: {
       type: Number,
       required: [true, "Age is required"],
-      trim: true,
     },
     email: {
       type: String,
@@ -32,14 +31,22 @@ const userSchema = new Schema(
   { timestamps: true },
 );
 /* HOOKS */
+/**
+ * @Hook Password hashing method
+ */
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
 
   this.password = await bcrypt.hash(this.password, 12);
 });
 
+/**
+ * @Hook Hashed Password comparing method
+ */
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-export const User = model("User", userSchema);
+const User = model("User", userSchema);
+
+export default User;
