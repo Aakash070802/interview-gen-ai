@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getUserDetails,
   loginController,
   logoutController,
   registerController,
@@ -28,4 +29,11 @@ router.route("/login").post(loginController);
  * @access Private
  */
 router.route("/logout").get(authMiddleware, logoutController);
+
+/**
+ * @route GET /api/auth/get-me
+ * @description fetch user details and return
+ * @access Private
+ */
+router.route("/get-me").get(authMiddleware, getUserDetails);
 export default router;
