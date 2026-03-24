@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
+import Blacklist from "../models/blacklist.model.js";
 
 /**
  * @name registerController
@@ -44,7 +45,7 @@ const registerController = async (req, res) => {
     {
       id: user?._id,
       username: user?.username,
-      age: user?.age,
+      email: user?.email,
     },
     config.JWT_SECRET,
     {
@@ -58,8 +59,12 @@ const registerController = async (req, res) => {
       .json({ message: "Failed to create token while Registering user" });
   }
 
-  /* SETTING TOKEN IN COOKIE */
-  res.cookie("token", token);
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  res.cookie("token", token, options);
 
   /* DELETE PASSWORD */
   const createdUser = user.toObject();
@@ -103,7 +108,7 @@ const loginController = async (req, res) => {
     {
       id: user?._id,
       username: user?.username,
-      age: user?.age,
+      email: user?.email,
     },
     config.JWT_SECRET,
     {
@@ -117,8 +122,12 @@ const loginController = async (req, res) => {
       .json({ message: "Failed to create token while Logging user" });
   }
 
-  /* SETTING TOKEN IN COOKIE */
-  res.cookie("token", token);
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  res.cookie("token", token, options);
 
   /* DELETE PASSWORD */
   const loggedInUser = user.toObject();
@@ -129,4 +138,23 @@ const loginController = async (req, res) => {
     .json({ message: "You Logged In Successfully", loggedInUser });
 };
 
-export { registerController, loginController };
+/**
+ * @route GET /api/auth/logout
+ * @description clear token from user cookie and add token in blacklist
+ * @access Private
+ */
+const logoutController = async (req, res) => {
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(400).json({ message: "Token is required for logout" });
+  }
+
+  res.clearCookie("token", "", { httpOnly: true, secure: true });
+
+  await Blacklist.create({ token });
+
+  return res.status(200).json({ message: "User Logged out successfully" });
+};
+
+export { registerController, loginController, logoutController };

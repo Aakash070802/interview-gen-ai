@@ -1,8 +1,10 @@
 import { Router } from "express";
 import {
   loginController,
+  logoutController,
   registerController,
 } from "../controllers/auth.controller.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
@@ -19,4 +21,11 @@ router.route("/register").post(registerController);
  * @access Public
  */
 router.route("/login").post(loginController);
+
+/**
+ * @route GET /api/auth/logout
+ * @description clear token from user cookie and add token in blacklist
+ * @access Private
+ */
+router.route("/logout").get(authMiddleware, logoutController);
 export default router;
