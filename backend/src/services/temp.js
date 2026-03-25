@@ -1,6 +1,5 @@
-export const resume = `
+const resume = `
 Name: Aakash Kashyap
-
 Contact Details:
 Phone: +91-7710927578
 Email: aakash.kash92@gmail.com
@@ -52,7 +51,7 @@ Additional Information:
 - Comfortable working in team environments and handling real-world projects
 `;
 
-export const selfDescription = `
+const selfDescription = `
 I am a backend-focused developer who enjoys building real-world systems that solve practical problems. I prefer working on logic-heavy features like authentication, database design, and API architecture rather than just UI.
 
 I have been consistently improving my skills in backend development, including learning about security, performance optimization, and scalable system design. I am also exploring DevOps basics and deployment strategies.
@@ -60,7 +59,7 @@ I have been consistently improving my skills in backend development, including l
 My goal is to become a strong backend engineer and work in a product-based company where I can grow technically and contribute to meaningful projects.
 `;
 
-export const jobDescription = `
+const jobDescription = `
 We are seeking a Full Stack Developer with deep expertise in Next.js and strong UI/UX implementation skills, who can also collaborate effectively with back-end teams using NestJS. You’ll be working on a large-scale veterinary care platform that will be rolled out to 20,000+ clinics in 100+ countries.
 
 The role focuses on front-end-heavy development during the initial phase, with upcoming full-stack integration as we migrate from Vercel to AWS.
