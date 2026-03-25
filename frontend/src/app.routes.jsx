@@ -5,15 +5,15 @@ import Home from "./features/auth/pages/Home";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-  },
-  {
     path: "/login",
     element: <Login />,
   },
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/",
+    element: <Home />,
   },
 ]);
