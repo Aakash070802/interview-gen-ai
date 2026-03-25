@@ -55,7 +55,7 @@ export const useAuth = () => {
     };
 
     getAndSetUser();
-  });
+  }, [setUser, setLoading]);
 
   return { user, loading, handleRegister, handleLogin, handleLogout };
 };
